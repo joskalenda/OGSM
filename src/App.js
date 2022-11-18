@@ -1,23 +1,72 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addItem1, deleteItem, updateName } from "./redux/dashboard/slice";
 
 function App() {
+  const dispatch = useDispatch();
+  const List = useSelector((state) => state.items.value);
+
+  const [name, setName] = useState("");
+  const [newName, setNewName] = useState("");
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      {" "}
+      <div className="">
+        <input
+          type="text"
+          placeholder="Name..."
+          onChange={(event) => {
+            setName(event.target.value);
+          }}
+        />
+        <button
+          onClick={() => {
+            dispatch(
+              addItem1({
+                id: List[List.length - 1].id + 1,
+                name,
+              })
+            );
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          {" "}
+          New item1
+        </button>
+      </div>
+      <div className="displayUsers">
+        {List.map((item) => {
+          return (
+            <div>
+              <h1> {item.name}</h1>
+              <input
+                type="text"
+                placeholder="New Username..."
+                onChange={(event) => {
+                  setNewName(event.target.value);
+                }}
+              />
+              <button
+                onClick={() => {
+                  dispatch(
+                    updateName({ id: item.id, name: newName })
+                  );
+                }}
+              >
+                {" "}
+                Update
+              </button>
+              <button
+                onClick={() => {
+                  dispatch(deleteItem({ id: item.id }));
+                }}
+              >
+                Delete item
+              </button>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
