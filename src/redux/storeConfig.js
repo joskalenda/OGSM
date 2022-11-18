@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit"
-import Reducer from "./dashboard/slice"
+import { item1reducer, item2reducer } from "./dashboard/slice"
+
 const store = configureStore ({
   reducer: {
-    items: Reducer,
+    items: item1reducer,
+    SecondItems: item2reducer
   },
 
 })
